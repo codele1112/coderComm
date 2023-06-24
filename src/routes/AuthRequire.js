@@ -5,7 +5,7 @@ import LoadingScreen from "../components/Loadingscreen";
 
 function AuthRequire({ children }) {
   const { isInitialized, isAuthenticated } = useAuth();
-  const location = useLocation;
+  const location = useLocation();
   if (!isInitialized) {
     return <LoadingScreen />;
   }
