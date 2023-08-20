@@ -14,7 +14,6 @@ import FriendList from "../features/friend/FriendList";
 import AddFriend from "../features/friend/AddFriend";
 import FriendRequests from "../features/friend/FriendRequests";
 import ProfileCover from "../features/user/ProfileCover";
-import { useSelector } from "react-redux";
 
 const TabsWrapperStyle = styled("div")(({ theme }) => ({
   zIndex: 9,
