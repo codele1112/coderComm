@@ -36,8 +36,6 @@ function HomePage() {
   const { user } = useAuth();
   // debugger;
   const [currentTab, setCurrentTab] = useState("profile");
-  const profile = useSelector((state) => state.user);
-  console.log("profile", profile);
 
   const handleChangeTab = (newValue) => {
     setCurrentTab(newValue);

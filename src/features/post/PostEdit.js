@@ -1,4 +1,4 @@
-import { alpha, Box, Card, Stack } from "@mui/material";
+import { alpha, Box, Button, Card, Stack } from "@mui/material";
 import { FormProvider, FTextField, FUploadImage } from "../../components/form";
 import { editPost } from "./postSlice";
 import { useCallback } from "react";
@@ -17,8 +17,8 @@ const defaultValues = {
   image: "",
 };
 
-function PostEdit({ post }) {
-  console.log("post", post);
+function PostEdit({ post, handleCloseModal }) {
+  console.log("post edit", post);
   const methods = useForm({
     resolver: yupResolver(yupSchema),
     defaultValues,
@@ -51,10 +51,12 @@ function PostEdit({ post }) {
   );
 
   const onSubmit = (data) => {
-    console.log("data submit", data);
     data.postId = post._id;
     data.userId = post.author._id;
-    dispatch(editPost(data)).then(() => reset());
+    dispatch(editPost(data)).then(() => {
+      reset();
+      handleCloseModal();
+    });
   };
 
   return (
@@ -91,6 +93,9 @@ function PostEdit({ post }) {
             >
               Save
             </LoadingButton>
+            <Button variant="outlined" size="small" onClick={handleCloseModal}>
+              Cancel
+            </Button>
           </Box>
         </Stack>
       </FormProvider>

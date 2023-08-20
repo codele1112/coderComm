@@ -14,8 +14,10 @@ import CommentReaction from "./CommentReaction";
 import { useDispatch } from "react-redux";
 import { deleteComment, getComments } from "./commentSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
+import useAuth from "../../hooks/useAuth";
 
 function CommentCard({ comment }) {
+  const { user } = useAuth();
   const dispatch = useDispatch((state) => state.comment);
 
   const [open, setOpen] = useState(false);
@@ -86,15 +88,17 @@ function CommentCard({ comment }) {
           <Typography variant="caption" sx={{ color: "text.disabled" }}>
             {fDate(comment.createdAt)}
           </Typography>
-          <Button
-            onClick={() => handleOpen()}
-            startIcon={<DeleteIcon />}
-            sx={{ ml: 1 }}
-            variant="outlined"
-            size="small"
-          >
-            Delete
-          </Button>
+          {user._id === comment.author._id && (
+            <Button
+              onClick={() => handleOpen()}
+              startIcon={<DeleteIcon />}
+              sx={{ ml: 1 }}
+              variant="outlined"
+              size="small"
+            >
+              Delete
+            </Button>
+          )}
         </Stack>
         {renderModal}
         <Typography variant="body2" sx={{ color: "text.secondary" }}>

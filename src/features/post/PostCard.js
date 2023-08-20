@@ -25,6 +25,7 @@ import CommentList from "../comment/CommentList";
 import { useDispatch, useSelector } from "react-redux";
 import { deletePost } from "./postSlice";
 import { LoadingButton } from "@mui/lab";
+import useAuth from "../../hooks/useAuth";
 
 const style = {
   position: "absolute",
@@ -40,8 +41,7 @@ const style = {
 };
 
 function PostCard({ post }) {
-  // console.log("postId", post._id);
-
+  const { user } = useAuth();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -77,13 +77,19 @@ function PostCard({ post }) {
         horizontal: "right",
       }}
       open={Boolean(anchorEl)}
-      onClose={handleClick}
+      onClose={() => setAnchorEl(null)}
     >
       <MenuItem onClick={() => handleClick("delete")} sx={{ mx: 1 }}>
         delete
       </MenuItem>
       <Divider sx={{ borderStyle: "dashed" }} />
-      <MenuItem onClick={() => handleClick("edit")} sx={{ mx: 1 }}>
+      <MenuItem
+        onClick={() => {
+          handleClick("edit");
+          setAnchorEl(null);
+        }}
+        sx={{ mx: 1 }}
+      >
         edit
       </MenuItem>
     </Menu>
@@ -128,12 +134,12 @@ function PostCard({ post }) {
   const renderModalEdit = (
     <Modal
       open={editMode}
-      onClose={handleClose}
+      onClose={() => setEditMode(false)}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <PostEdit post={post} />
+        <PostEdit post={post} handleCloseModal={() => setEditMode(false)} />
       </Box>
     </Modal>
   );
@@ -166,9 +172,11 @@ function PostCard({ post }) {
           </Typography>
         }
         action={
-          <IconButton onClick={handleClickOpenMenu}>
-            <MoreVertIcon sx={{ fontSize: 30 }} />
-          </IconButton>
+          user._id === post.author._id && (
+            <IconButton onClick={handleClickOpenMenu}>
+              <MoreVertIcon sx={{ fontSize: 30 }} />
+            </IconButton>
+          )
         }
       />
 

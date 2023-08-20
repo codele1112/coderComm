@@ -15,7 +15,6 @@ import { Avatar, Divider } from "@mui/material";
 
 function MainHeader() {
   const { user, logout } = useAuth();
-  console.log("mainheader", user);
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);

@@ -6,12 +6,10 @@ import { Box, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 function PostList({ userId }) {
-  // console.log("userID", userId);
   const [page, setPage] = useState(1);
   const { currentPagePosts, postsById, isLoading, totalPosts } = useSelector(
     (state) => state.post
   );
-  // console.log("posts:", postsById, totalPosts);
 
   const posts = currentPagePosts.map((postId) => postsById[postId]);
   const dispatch = useDispatch();
